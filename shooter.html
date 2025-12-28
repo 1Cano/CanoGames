@@ -1,64 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Shooter Game</title>
-  <style>
-    body {
-      text-align: center;
-      font-family: Arial;
-      background: black;
-      color: white;
-    }
-
-    canvas {
-      background: #222;
-      display: block;
-      margin: 20px auto;
-      border: 2px solid white;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Target Shooter</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <h1>🎯 Shooter Game</h1>
-  <p>Move ⬅️ ➡️ | Shoot SPACE</p>
-  <h2>Score: <span id="score">0</span></h2>
 
-  <canvas id="game" width="400" height="500"></canvas>
+  <div class="container">
+    <h2>🎯 Target Shooter</h2>
+    <p>Move & tap to shoot targets</p>
+    <h3>Score: <span id="score">0</span></h3>
 
-  <p><a href="index.html">⬅ Back to Home</a></p>
+    <canvas id="game" width="360" height="480"></canvas>
+
+    <a class="back" href="index.html">⬅ Home</a>
+  </div>
 
   <script>
-    const canvas = document.getElementById("game");
-    const ctx = canvas.getContext("2d");
+    const c = document.getElementById("game");
+    const ctx = c.getContext("2d");
 
     let score = 0;
-    const player = { x: 180, y: 450, w: 40, h: 20 };
+    const player = { x: 160, y: 430, w: 40 };
     const bullets = [];
     const targets = [];
-    const keys = {};
 
-    document.addEventListener("keydown", e => {
-      keys[e.key] = true;
-      if (e.key === " ") bullets.push({ x: player.x + 20, y: player.y });
+    c.addEventListener("click", () => {
+      bullets.push({ x: player.x + 20, y: player.y });
     });
 
-    document.addEventListener("keyup", e => keys[e.key] = false);
-
     setInterval(() => {
-      targets.push({ x: Math.random() * 360 + 20, y: 0 });
+      targets.push({ x: Math.random() * 320 + 10, y: 0 });
     }, 1000);
 
-    function update() {
-      if (keys["ArrowLeft"] && player.x > 0) player.x -= 5;
-      if (keys["ArrowRight"] && player.x < 360) player.x += 5;
+    function loop() {
+      ctx.clearRect(0, 0, c.width, c.height);
 
       bullets.forEach(b => b.y -= 6);
       targets.forEach(t => t.y += 2);
 
       bullets.forEach((b, bi) => {
         targets.forEach((t, ti) => {
-          if (Math.abs(b.x - t.x) < 10 && Math.abs(b.y - t.y) < 10) {
+          if (Math.abs(b.x - t.x) < 12 && Math.abs(b.y - t.y) < 12) {
             bullets.splice(bi, 1);
             targets.splice(ti, 1);
             score++;
@@ -67,23 +51,20 @@
         });
       });
 
-      draw();
-      requestAnimationFrame(update);
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, 400, 500);
-      ctx.fillStyle = "cyan";
-      ctx.fillRect(player.x, player.y, player.w, player.h);
+      ctx.fillStyle = "#00e5ff";
+      ctx.fillRect(player.x, player.y, player.w, 10);
 
       ctx.fillStyle = "yellow";
       bullets.forEach(b => ctx.fillRect(b.x, b.y, 4, 10));
 
       ctx.fillStyle = "red";
-      targets.forEach(t => ctx.fillRect(t.x, t.y, 10, 10));
+      targets.forEach(t => ctx.fillRect(t.x, t.y, 12, 12));
+
+      requestAnimationFrame(loop);
     }
 
-    update();
+    loop();
   </script>
+
 </body>
 </html>
