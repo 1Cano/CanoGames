@@ -1,42 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Click Game</title>
-  <style>
-    body {
-      text-align: center;
-      font-family: Arial;
-      background: #111;
-      color: white;
-      padding: 40px;
-    }
-
-    button {
-      font-size: 24px;
-      padding: 20px;
-      margin: 20px;
-      cursor: pointer;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speed Clicker</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <h1>🖱 Click Game</h1>
-  <p>Click as fast as you can in 10 seconds!</p>
 
-  <h2>Score: <span id="score">0</span></h2>
-  <h2>Time: <span id="time">10</span></h2>
+  <div class="container">
+    <h2>🖱 Speed Clicker</h2>
+    <p>Tap as fast as you can in 10 seconds</p>
 
-  <button onclick="clickMe()">CLICK</button>
-  <button onclick="startGame()">Start</button>
+    <h1 id="score">0</h1>
+    <p>Time: <span id="time">10</span>s</p>
 
-  <p><a href="index.html">⬅ Back to Home</a></p>
+    <button class="button" onclick="clickMe()">CLICK</button>
+    <button class="button" onclick="startGame()">START</button>
+
+    <a class="back" href="index.html">⬅ Home</a>
+  </div>
 
   <script>
-    let score = 0;
-    let time = 10;
-    let running = false;
-    let timer;
+    let score = 0, time = 10, running = false, timer;
 
     function startGame() {
       score = 0;
@@ -52,7 +37,7 @@
         if (time <= 0) {
           running = false;
           clearInterval(timer);
-          alert("Final score: " + score);
+          alert("Final Score: " + score);
         }
       }, 1000);
     }
@@ -64,5 +49,6 @@
       }
     }
   </script>
+
 </body>
 </html>
